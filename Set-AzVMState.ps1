@@ -78,4 +78,4 @@ $stopVMs | ForEach-Object {
     $null = $_ | Stop-AzureRmVM -AsJob -Force -ErrorAction SilentlyContinue
 }
 
-write-output "$(Get-Date) Script ended"
+write-output "`n$(Get-Date) Script ended"
