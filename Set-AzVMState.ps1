@@ -11,7 +11,7 @@ $startVMs = @()
 $stopVMs = @()
 
 # Ensures you do not inherit an AzureRMContext in your runbook
-Disable-AzureRmContextAutosave –Scope Process
+$null = Disable-AzureRmContextAutosave –Scope Process
 
 # Set up an AzureRMContext using the Run As account
 $connection = Get-AutomationConnection -Name AzureRunAsConnection
@@ -20,6 +20,8 @@ $null = Select-AzureRmSubscription -SubscriptionId $connection.SubscriptionID
 
 # grab all VMs (where Tag "AutomatedStopStart" exists)
 $azureVMs = Get-AzureRmVM -Status | Where-Object {$_.Tags.ContainsKey("AutomatedStopStart")}
+write-output "Working with the following VMs:"
+$azureVMs | Select-Object Name, PowerState
 
 # Set up the Graph connection using the registered application identity
 $uri = "https://login.microsoftonline.com/$($connection.TenantID)/oauth2/v2.0/token"
@@ -36,6 +38,8 @@ $token = ($tokenRequest.Content | ConvertFrom-Json).access_token
 
 # process all Calendars
 foreach($calendar in $Calendars) {
+
+    write-output "Working with calendar '$($calendar)'"
 
     # scope VMs to process to this Calendar
     $calendarVMs = $azureVMs | Where-Object {$_.Tags["AutomatedStopStart"] -like $Calendar}
