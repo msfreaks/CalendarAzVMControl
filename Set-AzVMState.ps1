@@ -1,7 +1,7 @@
 Param(
-    [string[]]$Calendars       = @("azurevms@it-worxx.nl", "azvmcalendar@it-worxx.nl"),
-    [string]$ApplicationId     = "4ba439d1-0267-4467-9ca0-f6980ed9639c",
-    [string]$ApplicationSecret = "1k/_t3u=c?JRZU6dky87dy-s.LX_rRM_"
+    [string[]]$Calendars       = @(),
+    [string]$ApplicationId,
+    [string]$ApplicationSecret
 )
 
 write-output "$(Get-Date) Script started"
@@ -42,7 +42,7 @@ foreach($calendar in $Calendars) {
 
     # only work if there are VMs for this Calendar
     if($calendarVMs) {
-        # Specify the URI to call
+        # Specify Graph query URI to call
         $uri = "https://graph.microsoft.com/v1.0/users/$($calendar)/calendar/calendarView?StartDateTime=$([DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ss'))&EndDateTime=$([DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ss'))"
 
         # Run Graph API query 
