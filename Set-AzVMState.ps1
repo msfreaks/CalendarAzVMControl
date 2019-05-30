@@ -1,5 +1,5 @@
 Param(
-    [string[]]$Calendars       = @(),
+    [string[]]$Calendars,
     [string]$ApplicationId,
     [string]$ApplicationSecret
 )
