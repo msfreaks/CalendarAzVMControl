@@ -39,7 +39,7 @@ $token = ($tokenRequest.Content | ConvertFrom-Json).access_token
 # process all Calendars
 foreach($calendar in $Calendars) {
 
-    write-output "Working with calendar '$($calendar)'"
+    write-output "`nWorking with calendar '$($calendar)'"
 
     # scope VMs to process to this Calendar
     $calendarVMs = $azureVMs | Where-Object {$_.Tags["AutomatedStopStart"] -like $Calendar}
