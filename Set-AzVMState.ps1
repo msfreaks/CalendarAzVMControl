@@ -52,16 +52,15 @@ foreach($calendar in $Calendars) {
         }
 
         # Create an array of VMs based on the subjects in the returned Calendar events 
-        $calendarVMs = @()
+        $processVMs = @()
         foreach($calendarItem in $query.Value) {
-            $calendarVMs += "$($calendarItem.Subject.ToLower())"
+            $processVMs += "$($calendarItem.Subject.ToLower())"
             write-output "  -- $($calendarItem.Subject) should be running ($(Get-Date ($calendarItem.start.dateTime)) -> $(Get-Date ($calendarItem.end.dateTime)))"
         }
     
         # arrays for VMs that need to be turned on and of
-        $startVMs += $calendarVMs | Where-Object {$_.Powerstate -like "VM deallocated" -and $calendarVMs.Contains("$($_.Name.ToLower())")}
-        $stopVMs += $calendarVMs | Where-Object {$_.Powerstate -like "VM running" -and -not $calendarVMs.Contains("$($_.Name.ToLower())")}
-
+        $startVMs += $calendarVMs | Where-Object {$_.Powerstate -like "VM deallocated" -and $processVMs.Contains("$($_.Name.ToLower())")}
+        $stopVMs += $calendarVMs | Where-Object {$_.Powerstate -like "VM running" -and -not $processVMs.Contains("$($_.Name.ToLower())")}
     }
 }
 
