@@ -67,11 +67,11 @@ foreach($calendar in $Calendars) {
 # process arrays of VMs
 $startVMs | ForEach-Object {
     write-output "Starting:         $($_.Name)"
-    $null = $_ | Start-AzureRmVM -AsJob
+    $null = $_ | Start-AzureRmVM -AsJob -ErrorAction SilentlyContinue
 }
 $stopVMs | ForEach-Object {
     write-output "Deallocating:     $($_.Name)"
-    $null = $_ | Stop-AzureRmVM -AsJob -Force
+    $null = $_ | Stop-AzureRmVM -AsJob -Force -ErrorAction SilentlyContinue
 }
 
 write-output "$(Get-Date) Script ended"
