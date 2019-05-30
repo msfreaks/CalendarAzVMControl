@@ -1,5 +1,5 @@
 Param(
-    [string[]]$Calendars,
+    [psobject[]]$Calendars,
     [string]$ApplicationId,
     [string]$ApplicationSecret
 )
